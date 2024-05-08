@@ -61,7 +61,7 @@ return (
                 "1px 1px 1px rgba(0, 0, 0, 0.5), 2px 2px 2px rgba(0, 0, 0, 0.3)",
             }}
           >
-            organize everything
+            everything connected
           </p>
           <ButtonLink to={"create"}>
                   <MainButton key={"create"} variant={page === "create" && "primary"}>
