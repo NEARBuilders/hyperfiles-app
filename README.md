@@ -4,7 +4,7 @@
 
 - Type Library
 - Viewer / Explorer
-- Generalized Creator
+- General Creator
 - Source Adapters
 - Jobs (coming soon)
 
