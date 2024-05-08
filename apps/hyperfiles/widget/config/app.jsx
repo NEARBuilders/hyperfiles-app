@@ -8,18 +8,18 @@ return {
         name: "Home",
       },
     },
-    feed: {
-      path: "${config_account}/widget/page.feed",
+    create: {
+      path: "${config_account}/widget/page.create",
       blockHeight: "final",
       init: {
-        name: "Feed",
+        name: "Create",
       },
     },
-    demo: {
-      path: "${config_account}/widget/page.demo",
+    explore: {
+      path: "${config_account}/widget/page.explore",
       blockHeight: "final",
       init: {
-        name: "Demo",
+        name: "Explore",
       },
     },
   },

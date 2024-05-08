@@ -1,9 +1,9 @@
 {
-  "name": "quickstart",
-  "version": "0.0.0",
-  "description": "",
+  "name": "hyperfiles",
+  "version": "0.0.8",
+  "description": "everything connected",
   "author": "nearbuilders",
-  "license": "MIT",
+  "license": "CC0-1.0",
   "scripts": {
     "bw": "bos-workspace",
     "dev": "bw ws dev",

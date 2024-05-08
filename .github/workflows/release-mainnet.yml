@@ -8,9 +8,9 @@ jobs:
     with:
       bw-legacy: false
       deploy-env: "mainnet"
-      app-name: "quickstart"
-      deploy-account-address: quickstart.near
-      signer-account-address: quickstart.near
-      signer-public-key: ed25519:GTZpJWYSkDkwGGLPFDagS2uMeFSP7eVirYXwhQEMdoxj
+      app-name: "hyperfiles"
+      deploy-account-address: hyperbuild.near
+      signer-account-address: hyperbuild.near
+      signer-public-key: ed25519:2jAjaHwbfvfXRv2YUDs6mmMrzqu5Gyqa9gBr1FefodRh
     secrets:
       SIGNER_PRIVATE_KEY: ${{ secrets.SIGNER_PRIVATE_KEY }}

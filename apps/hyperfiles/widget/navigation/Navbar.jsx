@@ -1,6 +1,34 @@
-const { Button } = VM.require("${alias_builddao}/widget/components") || {
-  Button: () => <></>,
-};
+const StyledButton = styled.button`
+  all: unset;
+  display: ${(props) => props.type === "icon" ? 'flex' : 'inline-flex'};
+  width: ${(props) => props.type === "icon" ? '40px' : 'auto'};
+  height: ${(props) => props.type === "icon" ? '40px' : 'auto'};
+  padding: ${(props) => props.type === "icon" ? '0' : '10px 20px'};
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: ${(props) => props.type === "icon" ? '50%' : '8px'};
+  font-size: 15px;
+  letter-spacing: 2px;
+
+  font-weight: 555;
+  font-family: "Courier", sans-serif;
+  background: ${(props) => props.isActive ? '#39f095' : `var(--button-${props.variant}-bg, #23242B)`};
+  color: ${(props) => props.isActive ? '#000' : `var(--button-${props.variant}-color, #39f095)`};
+  border: ${(props) => props.variant === "outline" ? '1px solid rgba(255, 255, 255, 0.20)' : 'none'};
+  transition: background 300ms, color 300ms;
+
+  &:hover:not(:disabled), &:focus {
+    background: #39f095;
+    color: #000;
+  }
+
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
 
 const StyledNavbar = styled.div`
   width: 64px;
@@ -9,14 +37,15 @@ const StyledNavbar = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 48px;
+  padding: 15px 23px;
   width: 100%;
 
   background-color: #0b0c14;
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
+  border-radius: 8px;
 
   @media screen and (max-width: 768px) {
-    padding: 24px;
+    padding: 15px;
   }
 `;
 
@@ -25,7 +54,7 @@ const ButtonGroup = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.888rem;
 
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -85,91 +114,12 @@ const toggleDropdown = () => setShowMenu(!showMenu);
 const SignInOrConnect = () => (
   <>
     {context.accountId ? (
-      <Button>Signed in</Button>
+      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif"}}>Connected</p>
     ) : (
-      <Button>Signed out</Button>
+      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif"}}>Connect</p>
     )}
   </>
 );
-
-const StyledDropdown = styled.div`
-  .dropdown-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--slate-dark-5);
-    border-radius: 50px;
-    outline: none;
-    border: 0;
-    width: 40px;
-    height: 40px;
-
-    &:after {
-      display: none;
-    }
-
-    .menu {
-      width: 18px;
-      height: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-
-      div {
-        background-color: var(--slate-dark-11);
-        height: 2px;
-        width: 100%;
-        border-radius: 30px;
-      }
-    }
-
-    :hover {
-      .menu {
-        div {
-          background-color: white;
-        }
-      }
-    }
-  }
-
-  ul {
-    background-color: var(--slate-dark-5);
-    width: 100%;
-
-    li {
-      padding: 0 6px;
-    }
-
-    button,
-    a {
-      color: var(--slate-dark-11);
-      display: flex;
-      align-items: center;
-      border-radius: 8px;
-      padding: 12px;
-
-      :hover,
-      :focus {
-        text-decoration: none;
-        background-color: var(--slate-dark-1);
-        color: white;
-
-        svg {
-          path {
-            stroke: white;
-          }
-        }
-      }
-
-      svg {
-        margin-right: 7px;
-        path {
-          stroke: var(--slate-dark-9);
-        }
-      }
-    }
-  }
-`;
 
 const Navbar = ({ page, routes, ...props }) => (
   <StyledNavbar>
@@ -185,9 +135,9 @@ const Navbar = ({ page, routes, ...props }) => (
           })}
         >
           <img
-            style={{ width: 85, objectFit: "cover" }}
-            src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO Logo"
+            style={{ width: 42, objectFit: "cover" }}
+            src="https://builders.mypinata.cloud/ipfs/QmQuePz1JfSQ2jh9pDCh95rHeUvPSyDrddetaWJKDXaimZ"
+            alt="Hyperfiles"
           />
         </Link>
         <ButtonGroup style={{ flex: 1 }}>
@@ -199,10 +149,10 @@ const Navbar = ({ page, routes, ...props }) => (
               }
               return (
                 <NavLink to={k}>
-                  <Button key={k} variant={page === k && "primary"}>
+                  <StyledButton key={k} isActive={page === k}>
                     {route.init.icon && <i className={route.init.icon}></i>}
                     {route.init.name}
-                  </Button>
+                  </StyledButton>
                 </NavLink>
               );
             })}
@@ -230,19 +180,19 @@ const Navbar = ({ page, routes, ...props }) => (
           })}
         >
           <img
-            style={{ width: 85, objectFit: "cover" }}
-            src="https://ipfs.near.social/ipfs/bafkreihbwho3qfvnu4yss3eh5jrx6uxhrlzdgtdjyzyjrpa6odro6wdxya"
-            alt="Build DAO Logo"
+            style={{ width: 39, objectFit: "cover" }}
+            src="https://builders.mypinata.cloud/ipfs/QmQuePz1JfSQ2jh9pDCh95rHeUvPSyDrddetaWJKDXaimZ"
+            alt="Hyperfiles"
           />
         </Link>
-        <Button
+        <StyledButton
           type="icon"
           variant="outline"
           className="rounded-2"
           onClick={toggleDropdown}
         >
           <i style={{ fontSize: 24 }} className="bi bi-list"></i>
-        </Button>
+        </StyledButton>
       </MobileNavigation>
     </div>
     <MobileNavigation>
@@ -257,7 +207,7 @@ const Navbar = ({ page, routes, ...props }) => (
                 }
                 return (
                   <NavLink to={k} style={{ textDecoration: "none" }}>
-                    <Button
+                    <StyledButton
                       key={k}
                       variant={page === k && "primary"}
                       className="w-100"
@@ -265,7 +215,7 @@ const Navbar = ({ page, routes, ...props }) => (
                     >
                       {route.init.icon && <i className={route.init.icon}></i>}
                       {route.init.name}
-                    </Button>
+                    </StyledButton>
                   </NavLink>
                 );
               })}

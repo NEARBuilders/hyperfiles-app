@@ -1,9 +1,9 @@
 {
-  "account": "quickstart.near",
+  "account": "hyperbuild.near",
   "aliases": ["./aliases.mainnet.json"],
   "overrides": {
     "testnet": {
-      "account": "quickstart.testnet",
+      "account": "hyperbuild.testnet",
       "aliases": ["./aliases.testnet.json"]
     }
   }

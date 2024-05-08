@@ -1,6 +1,30 @@
-const { Button } = VM.require("${alias_builddao}/widget/components") || {
-  Button: () => <></>,
-};
+const StyledButton = styled.button`
+  all: unset;
+  display: ${(props) => props.type === "icon" ? 'flex' : 'inline-flex'};
+  width: ${(props) => props.type === "icon" ? '40px' : 'auto'};
+  height: ${(props) => props.type === "icon" ? '40px' : 'auto'};
+  padding: ${(props) => props.type === "icon" ? '0' : '10px 20px'};
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: ${(props) => props.type === "icon" ? '50%' : '8px'};
+  font-size: ${(props) => props.type === "icon" ? '16px' : '14px'};
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  background: var(--button-${props.variant}-bg, #23242B);
+  color: var(--button-${props.variant}-color, #CDD0D5);
+  border: ${(props) => props.variant === "outline" ? '1px solid rgba(255, 255, 255, 0.20)' : 'none'};
+  transition: background 300ms, color 300ms;
+  
+  &:hover:not(:disabled) {
+    background: var(--button-${props.variant}-hover-bg, #17181c);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
 
 const Container = styled.div`
   display: grid;
@@ -16,7 +40,6 @@ const Container = styled.div`
 const SidebarContainer = styled.div`
   border-radius: 16px;
   border: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
-  background: var(--bg-1, #0b0c14);
   width: 100%;
   min-height: 80vh;
   display: flex;
@@ -47,7 +70,7 @@ const Sidebar = ({ currentPath, page, routes }) => (
           return null;
         }
         return (
-          <Button
+          <StyledButton
             id={k}
             variant={page === k ? "primary" : "outline"}
             href={`${currentPath}&tab=${k}`}
@@ -65,7 +88,7 @@ const Sidebar = ({ currentPath, page, routes }) => (
           >
             {route.init.icon && <i className={`bi ${route.init.icon} `} />}
             <span>{route.init.name}</span>
-          </Button>
+          </StyledButton>
         );
       })}
   </>
