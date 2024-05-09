@@ -1,10 +1,3 @@
-const { currentPath, page, ...passProps } = props;
-
-const Wrapper = styled.div`
-  max-width: 400px;
-  margin: 2rem auto;
-`;
-
 const TabContent = styled.div`
   margin-top: 1rem;
 `;
@@ -33,6 +26,13 @@ const FormGroup = styled.div`
   flex-direction: column;
 `;
 
+const Button = styled.button``;
+
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 const adapters = [
   // these can come from the user (or app) settings
   // {
@@ -45,13 +45,22 @@ const adapters = [
   //   value: "everycanvas.near/widget/adapter.social",
   // },
   {
+    title: "",
+    value: "",
+  },
+  {
     title: "IPFS",
     value: "everycanvas.near/widget/adapter.ipfs",
+    refType: { cid: "string" },
   },
   // {
-  //   title: "GitHub",
-  //   value: "hack.near/widget/adapter.github",
+  //   title: "Custom",
+  //   value: "custom",
   // },
+  {
+    title: "GitHub",
+    value: "hyperfiles.near/widget/adapter.github",
+  },
   // {
   //   title: "Obsidian",
   //   value: "hack.near/widget/adapter.obsidian",
@@ -62,45 +71,79 @@ const adapters = [
   // },
 ];
 
-const defaultAdapter = adapters[0];
-
-const { creatorId } = props;
-
-const [json, setJson] = useState(props.data ?? "");
-const [source, setSource] = useState(props.source ?? "");
-const [adapter, setAdapter] = useState(defaultAdapter.value ?? "");
+//const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
+const { MetadataComponent } = VM.require(
+  "hyperfiles.near/widget/CreateMetadata"
+);
+const [rawData, setRawData] = useState("");
+const [source, setSource] = useState("");
+const [schema, setSchema] = useState("");
+const [adapter, setAdapter] = useState("");
 const [reference, setReference] = useState(undefined);
-const [filename, setFilename] = useState(props.filename ?? "");
-const [activeTab, setActiveTab] = useState("data");
+const [activeTab, setActiveTab] = useState("content");
 const [name, setName] = useState(props.name ?? "");
 const [description, setDescription] = useState(props.description ?? "");
+const [hyperfile, setHyperfile] = useState("");
+const [type, setType] = useState("");
+const [filePath, setFilePath] = useState(null);
+const [defaultView, setDefaultView] =
+  useState("HYPERFILE") || props.defaultView;
+
+const handleSelectRepository = (selectedFilePath) => {
+  console.log("Selected repository:", selectedFilePath);
+  // Assuming you need the repository's file path or some specific identifier
+  setFilePath(selectedFilePath); // or any specific attribute you need
+};
+
+const rawAdapter =
+  (adapter !== "" || adapter !== "custom") && Social.get(adapter, "final");
+const { create } =
+  ((adapter !== "" || adapter !== "custom") && VM.require(adapter)) ||
+  (() => {});
+
+const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
+
+function parseAdapter(code) {
+  let match;
+  const functions = [];
+
+  while ((match = functionRegex.exec(code)) !== null) {
+    const [_, functionName, params, content] = match;
+    functions.push({ functionName, params, content });
+  }
+
+  return functions.map((func, index) => (
+    <FormGroup key={index}>
+      <Label>{func.functionName}</Label>
+      <textarea
+        className="form-control"
+        style={{ width: "100%", height: "100%" }}
+        value={func.content.trim()}
+        disabled
+      />
+    </FormGroup>
+  ));
+}
 
 function generateUID() {
-  return (
-    Math.random().toString(16).slice(2) +
-    Date.now().toString(36) +
-    Math.random().toString(16).slice(2)
-  );
+  const maxHex = 0xffffffff;
+  const randomNumber = Math.floor(Math.random() * maxHex);
+  return randomNumber.toString(16).padStart(8, "0");
 }
 
 const handleCreate = () => {
-  const isCreator = context.accountId === creatorId;
-
-  // load in the state.adapter (modules for IPFS, Arweave, Ceramic, Verida, On Machina... )
-  const { create } = VM.require(adapter) || (() => {});
   if (create) {
+    console.log("it's something", rawData);
     // store the data somewhere, based on the adapter
-    create(json).then((reference) => {
+    create(rawData).then((reference) => {
       // now we have a reference to the data
-      // we need to name it... are we the original creator or are we forking? We don't want to overwrite any of the users custom (or maybe we do!)
-      const thingId = filename ?? generateUID();
+      const thingId = generateUID();
 
       const hyperfile = {
-        [props.type]: {
+        thing: {
           // which we store in the social contract
           [thingId]: {
             "": JSON.stringify({
-              fileformat: `${props.type}.${source}`,
               source: source,
               adapter: adapter,
               reference: reference,
@@ -108,51 +151,89 @@ const handleCreate = () => {
             metadata: {
               name: name,
               description: description,
-              type: props.type,
+              schema: schema,
             },
           },
         },
       };
 
-      if (creatorId !== context.accountId) {
-        // handle request merge
-        hyperfile.index = {
-          notify: JSON.stringify({
-            key: creatorId,
-            value: {
-              type: "request",
-              data: {
-                type: "merge",
-                upstream: `${creatorId}/${props.type}/${props.filename}`,
-                origin: `${context.accountId}/${props.type}/${thingId}`,
-              },
-            },
-          }),
-        };
-        hyperfile[props.type][thingId].metadata = {
-          ...hyperfile[props.type][thingId].metadata,
-          upstream: `${creatorId}/${props.type}/${props.filename}`,
-        };
-        // I want to make a request to merge
-        // set upstream and downstream
-      }
-
-      // sometimes we're not logged in, so it doesn't do anything!
-      Social.set(hyperfile, { force: true });
+      setHyperfile(JSON.stringify(hyperfile, null, 2));
     });
+  } else {
+    console.log("invalid adapter");
   }
 };
 
+const MetadataForm = ({ name, setName, description, setDescription }) => {
+  return (
+    <Form>
+      <h3>Metadata</h3>
+      <FormGroup>
+        <Label>Name</Label>
+        <Input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Description</Label>
+        <textarea
+          className="form-control mb-3"
+          rows={5}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </FormGroup>
+      <FormGroup>
+        <Label>Tags</Label>
+        <Widget src="mob.near/widget/TagsEditor" />
+      </FormGroup>
+    </Form>
+  );
+};
+
+console.log("source: ", source);
+console.log("schema: ", schema);
+//console.log("data: ", rawData);
+//console.log("adapter: ", adapter);
+
 return (
-  <Wrapper>
-    <h3>{context.accountId === creatorId ? "create" : "request merge"}</h3>
+  <div className="container mt-3 p-3 border bg-light">
+    <div className="row">
+      <h1>Hyperfile Creator</h1>
+      <p>
+        View the
+        <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
+          docs
+        </a>
+        to learn how the different data structures work together.
+      </p>
+      <hr />
+    </div>
+    <Row style={{ gap: "8px", marginBottom: "16px" }}>
+      <h2>Create</h2>{" "}
+      <Select
+        value={state.defaultView}
+        onChange={(e) => setDefaultView(e.target.value)}
+      >
+        <option value="HYPERFILE">Data Object</option>
+        <option value="ATTESTATION">Attestation</option>
+        <option value="SCHEMA">Schema</option>
+        <option value="TYPE">Type</option>
+        <option value="JOB">Job</option>
+      </Select>
+    </Row>
+    <div>
+      <Widget src="hyperfiles.near/widget/query.search" props={{}} />
+    </div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
-          className={`nav-link ${activeTab === "data" ? "active" : ""}`}
-          onClick={() => setActiveTab("data")}
+          className={`nav-link ${activeTab === "content" ? "active" : ""}`}
+          onClick={() => setActiveTab("content")}
         >
-          Data
+          Content
         </a>
       </li>
       <li className="nav-item">
@@ -164,70 +245,163 @@ return (
         </a>
       </li>
     </ul>
-
-    <TabContent>
-      {activeTab === "data" && (
-        <Form>
-          <FormGroup>
-            <Label>source</Label>
-            <Input
-              type="text"
-              value={source}
-              onChange={(e) => onChangeSource(e.target.value)}
-              disabled={props.source} // disable if source is passed in
-            />
-          </FormGroup>
-          {/* <Widget
-            src="bozon.near/widget/CodeDiff"
-            props={{ currentCode: update, prevCode: src, ...props }}
-          /> */}
-          <textarea
-            className="form-control mb-3"
-            rows={5}
-            value={json}
-            onChange={(e) => setJson(e.target.value)}
+    <div className="row">
+      <TabContent>
+        {defaultView === "HYPERFILE" && (
+          <div className="row">
+            <TabContent>
+              {activeTab === "content" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="hyperfiles.near/widget/hyperfile.create"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
+              )}
+            </TabContent>
+          </div>
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "ATTESTATION" && (
+          <div className="row">
+            <TabContent>
+              {activeTab === "content" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget src="flowscience.near/widget/eas" props={{}} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
+              )}
+            </TabContent>
+          </div>
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "SCHEMA" && (
+          <div className="row">
+            <TabContent>
+              {activeTab === "content" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="hyperfiles.near/widget/schema.edit"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
+              )}
+            </TabContent>
+          </div>
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "TYPE" && (
+          <div className="row">
+            <TabContent>
+              {activeTab === "content" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="efiz.near/widget/every.type.create"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
+              )}
+            </TabContent>
+          </div>
+        )}
+      </TabContent>
+      <TabContent>
+        {defaultView === "JOB" && (
+          <div className="row">
+            <TabContent>
+              {activeTab === "content" && (
+                <div className="row">
+                  <div className="col">
+                    <div className="p-3 border bg-light">
+                      <Widget
+                        src="jgodwill.near/widget/JSONFormatter"
+                        props={{}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </TabContent>
+            <TabContent>
+              {activeTab === "metadata" && (
+                <MetadataForm
+                  name={name}
+                  setName={setName}
+                  description={description}
+                  setDescription={setDescription}
+                />
+              )}
+            </TabContent>
+          </div>
+        )}
+        <div>
+          <Widget
+            src="efiz.near/widget/Every.Thing.History"
+            props={{
+              path: state.path,
+              count: (count) => console.log("Number of changes:", count),
+            }}
           />
-          <FormGroup>
-            <Label>adapter</Label>
-            <Select
-              value={adapter}
-              onChange={(e) => setAdapter(e.target.value)}
-            >
-              {adapters.map((o) => (
-                <option value={o.value}>{o.title}</option>
-              ))}
-            </Select>
-          </FormGroup>
-        </Form>
-      )}
-    </TabContent>
-    <TabContent>
-      {activeTab === "metadata" && (
-        <Form>
-          <FormGroup>
-            <Label>name</Label>
-            <Input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label>description</Label>
-            <textarea
-              className="form-control mb-3"
-              rows={5}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </FormGroup>
-        </Form>
-      )}
-    </TabContent>
-    <FormGroup>
-      <button className="btn btn-success mb-1" onClick={handleCreate}>
-        Create
-      </button>
-    </FormGroup>
-  </Wrapper>
+        </div>
+      </TabContent>
+    </div>
+  </div>
 );
