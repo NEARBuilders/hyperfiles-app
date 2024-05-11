@@ -1,3 +1,7 @@
+//const { DataCreator } = VM.require("${config_account}/widget/create/data");
+//const { HyperfileCreator } = VM.require("${config_account}/widget/create/hyperfile");
+//const { MetadataForm } = VM.require("${config_account}/widget/create/metadata");
+
 const TabContent = styled.div`
   margin-top: 1rem;
 `;
@@ -50,7 +54,7 @@ const adapters = [
   },
   {
     title: "IPFS",
-    value: "everycanvas.near/widget/adapter.ipfs",
+    value: "${config_account}/widget/adapter.ipfs",
     refType: { cid: "string" },
   },
   // {
@@ -59,7 +63,7 @@ const adapters = [
   // },
   {
     title: "GitHub",
-    value: "hyperfiles.near/widget/adapter.github",
+    value: "${config_account}/widget/adapter.github",
   },
   // {
   //   title: "Obsidian",
@@ -73,7 +77,7 @@ const adapters = [
 
 //const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
 const { MetadataComponent } = VM.require(
-  "hyperfiles.near/widget/CreateMetadata"
+  "${config_account}/widget/create/metadata"
 );
 const [rawData, setRawData] = useState("");
 const [source, setSource] = useState("");
@@ -255,7 +259,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="hyperfiles.near/widget/hyperfile.create"
+                        src="${config_account}/widget/create.hyperfile"
                         props={{}}
                       />
                     </div>
@@ -312,7 +316,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="hyperfiles.near/widget/schema.edit"
+                        src="${config_account}/widget/create.edit.schema"
                         props={{}}
                       />
                     </div>
@@ -342,7 +346,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="efiz.near/widget/every.type.create"
+                        src="${config_account}/widget/create.edit.type"
                         props={{}}
                       />
                     </div>
@@ -394,7 +398,7 @@ return (
         )}
         <div>
           <Widget
-            src="efiz.near/widget/Every.Thing.History"
+            src="${config_account}/widget/explore.view.history"
             props={{
               path: state.path,
               count: (count) => console.log("Number of changes:", count),
