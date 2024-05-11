@@ -1,0 +1,36 @@
+Folder PATH listing
+Volume serial number is 06A7-B3B0
+C:.
+|   tree.txt
+|   
+\---hyperfiles
+    |   aliases.mainnet.json
+    |   aliases.testnet.json
+    |   bos.config.json
+    |   data.json
+    |   
+    \---widget
+        |   app.jsx
+        |   greeting.jsx
+        |   
+        +---adapter
+        +---config
+        |       app.jsx
+        |       
+        +---hyperfile
+        +---navigation
+        |       Navbar.jsx
+        |       
+        +---page
+        |       create.jsx
+        |       explore.jsx
+        |       home.jsx
+        |       
+        +---query
+        +---schema
+        +---template
+        |       AppLayout.jsx
+        |       SidebarLayout.jsx
+        |       
+        +---type
+        \---view
