@@ -1,6 +1,10 @@
 //const { DataCreator } = VM.require("${config_account}/widget/create/data");
 //const { HyperfileCreator } = VM.require("${config_account}/widget/create/hyperfile");
-//const { MetadataForm } = VM.require("${config_account}/widget/create/metadata");
+//const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
+const { CreateMetadata } = VM.require(
+  "${config_account}/widget/create.metadata"
+);
+
 
 const TabContent = styled.div`
   margin-top: 1rem;
@@ -75,10 +79,7 @@ const adapters = [
   // },
 ];
 
-//const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
-const { MetadataComponent } = VM.require(
-  "${config_account}/widget/create/metadata"
-);
+
 const [rawData, setRawData] = useState("");
 const [source, setSource] = useState("");
 const [schema, setSchema] = useState("");
@@ -168,34 +169,6 @@ const handleCreate = () => {
   }
 };
 
-const MetadataForm = ({ name, setName, description, setDescription }) => {
-  return (
-    <Form>
-      <h3>Metadata</h3>
-      <FormGroup>
-        <Label>Name</Label>
-        <Input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Description</Label>
-        <textarea
-          className="form-control mb-3"
-          rows={5}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label>Tags</Label>
-        <Widget src="mob.near/widget/TagsEditor" />
-      </FormGroup>
-    </Form>
-  );
-};
 
 console.log("source: ", source);
 console.log("schema: ", schema);
@@ -229,7 +202,7 @@ return (
       </Select>
     </Row>
     <div>
-      <Widget src="hyperfiles.near/widget/query.search" props={{}} />
+      <Widget src="${config_account}/widget/explore.search" props={{}} />
     </div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
@@ -269,12 +242,11 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
-                  name={name}
-                  setName={setName}
-                  description={description}
-                  setDescription={setDescription}
-                />
+                  <CreateMetadata
+                    name={name}
+                    setName={setName}
+                    description={description}
+                    setDescription={setDescription} />
               )}
             </TabContent>
           </div>
@@ -296,7 +268,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -326,7 +298,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -356,7 +328,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
@@ -386,7 +358,7 @@ return (
             </TabContent>
             <TabContent>
               {activeTab === "metadata" && (
-                <MetadataForm
+                <CreateMetadata
                   name={name}
                   setName={setName}
                   description={description}
