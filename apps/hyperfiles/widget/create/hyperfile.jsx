@@ -1,3 +1,6 @@
+// const { CreateThing } = VM.require('${config_account}/widget/create.thing');
+// <CreateThing item={{ type: 'specificType', value: {} }} onChange={handleThingUpdate} />
+
 const Wrapper = styled.div`
   max-width: 400px;
   margin: 0 auto;
@@ -52,11 +55,11 @@ const adapters = [
   // },
   {
     title: "IPFS",
-    value: "hyperfiles.near/widget/adapter.ipfs",
+    value: "${config_account}/widget/adapter.ipfs",
   },
   {
     title: "GitHub",
-    value: "hyperfiles.near/widget/adapter.github",
+    value: "${config_account}/widget/adapter.github",
   },
   // {
   //   title: "Obsidian",
@@ -106,6 +109,11 @@ const handleSchemaSrcChange = (newSchemaSrc) => {
 
 const handleSelectedSchemaChange = (newValue) => {
   setSelectedSchema(newValue);
+};
+
+const handleThingUpdate = (newData) => {
+  console.log('Thing Data Updated:', newData);
+  // Handle the new data, such as saving to a state or sending to a server
 };
 
 // TODO: Import keccak from ethers to hash Hyperfile contents
@@ -187,7 +195,7 @@ return (
           <FormGroup>
             <Label>Source</Label>
             <Widget
-              src="hyperfiles.near/widget/MetadataEditor"
+              src="${config_account}/widget/profile.metadataEditor"
               props={{
                 initialMetadata: profile,
                 onChange: (newValue) => {
@@ -210,7 +218,7 @@ return (
           <FormGroup>
             <Label>Schema</Label>
             <Widget
-              src="hyperfiles.near/widget/schema.select"
+              src="${config_account}/widget/explore.select.schema"
               props={{
                 onSchemaSrcChange: handleSchemaSrcChange,
                 onSelectedSchemaChange: handleSelectedSchemaChange,
@@ -221,8 +229,9 @@ return (
           <FormGroup>
             <Label>Input Your Data</Label>
             <FormContainer>
+              
               <Widget
-                src="hyperfiles.near/widget/create"
+                src="${config_account}/widget/create.thing"
                 props={{
                   item: {
                     type: selectedSchema,
