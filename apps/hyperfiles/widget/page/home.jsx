@@ -73,6 +73,11 @@ return (
                     Explore
                   </MainButton>
                 </ButtonLink>
+                <ButtonLink to={"tools"}>
+                  <MainButton key={"tools"} variant={page === "tools" && "primary"}>
+                    Tools
+                  </MainButton>
+                </ButtonLink>
         </CardContent>
         </Card3D>
   </div>

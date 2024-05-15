@@ -178,16 +178,20 @@ return (
   <div className="container mt-3 p-3 border bg-light">
     <div className="row">
       <h1>Hyperfile Creator</h1>
-      <p>
-        View the
+      <p><i>*View the
         <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
           docs
         </a>
-        to learn how the different data structures work together.
+        to learn more about how Hyperfiles data structures work.</i>
       </p>
+      <p><b>TLDR:</b> <ul>
+      <li>Publish structured data objects, attest (add references) to data and reference objects, and run jobs (coming soon).</li>
+      <li>Each schema contains an ordered list of types that describes the structure of corresponding data objects.</li>
+      <li>Common types & schemas compose into a graph of related entities (data + creators) and actions (references + jobs).</li>
+      </ul></p>
       <hr />
     </div>
-    <Row style={{ gap: "8px", marginBottom: "16px" }}>
+    <Row style={{ gap: "10px", marginBottom: "16px" }}>
       <h2>Create</h2>{" "}
       <Select
         value={state.defaultView}

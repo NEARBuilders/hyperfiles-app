@@ -219,6 +219,7 @@ return (
         apply
       </Button>
     </Row>
+    <Widget src="${config_account}/widget/explore.select.type"/>
     <FormContainer>
       <Row>
         <Text>Type Name:</Text>

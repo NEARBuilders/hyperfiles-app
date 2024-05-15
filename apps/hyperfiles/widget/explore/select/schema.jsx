@@ -1,91 +1,90 @@
-const initialSchemaSrc = props.schemaSrc || "hyperfiles.near";
-const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
-const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
-const [availableSchemas, setAvailableSchemas] = useState([]);
-const [isLoading, setIsLoading] = useState(true);
-const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "attestations.near/type/isTrue"
-);
-
 const Row = styled.div`
   display: flex;
   flex-direction: row;
 `;
-const Button = styled.button`
-  `;
+const Button = styled.button``;
 const FormContainer = styled.div`
   border: 1px solid #ccc;
   padding: 20px;
 `;
-const Select = styled.select`
-  `;
-const Label = styled.label`
-  font-weight: bold;
-`;
-const Input = styled.input`
-  `;
+const Select = styled.select``;
+const Label = styled.label``;
+const Input = styled.input``;
+
+const initialSchemaSrc = props.schemaSrc || "hyperfiles.near";
+const [newSchemaSrc, setNewSchemaSrc] = useState(initialSchemaSrc);
+const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
+const [selectedSchema, setSelectedSchema] = useState(props.selectedSchema || "");
+const [availableSchemas, setAvailableSchemas] = useState([]);
+const [isLoading, setIsLoading] = useState(true);
+const [fetchedData, setFetchedData] = useState({}); // State for debugging
 
 useEffect(() => {
-  const fetchSchemasList = async () => {
-    setIsLoading(true);
-    // Ensure dynamic accountId is correctly included in the query
-    const schemas = Social.get(`${schemaSrc}/schema/**`, "final");
+  setIsLoading(true);
+  const fetchSchemasList = () => {
+    const query = schemaSrc === '*' ? '*/schema/**' : `${schemaSrc}/schema/**`;
+    const schemas = Social.get(query, "final");
+    setFetchedData(schemas); // Store raw data for debugging
     if (schemas) {
-      const schemasList = Object.keys(schemas).map(
-        (key) => `${schemaSrc}/schema/${key}`
-      );
-      setAvailableSchemas(schemasList);
+      let schemasSet = new Set();
+      if (schemaSrc === '*') {
+        // Collect schemas from all fetched data
+        Object.values(schemas).forEach(accountSchemas => {
+          Object.values(accountSchemas).forEach(schemaObj => {
+            Object.keys(schemaObj).forEach(schemaName => {
+              schemasSet.add(schemaName);
+            });
+          });
+        });
+      } else {
+        // Schemas from a specific account
+        Object.keys(schemas).forEach(key => schemasSet.add(key));
+      }
+      setAvailableSchemas(Array.from(schemasSet));
     } else {
       setAvailableSchemas([]);
     }
     setIsLoading(false);
   };
-
   fetchSchemasList();
-}, [schemaSrc]); // Depend on schemaSrc to refetch when it changes
-
-if (!schemas) {
-  console.error(`Failed to fetch schemas for ${schemaSrc}`);
-  // Handle the error appropriately in the UI
-}
+}, [schemaSrc]);
 
 useEffect(() => {
-  // Sync state with prop when it changes
   setSelectedSchema(props.selectedSchema);
-}, [props.selectedSchema]); // Re-run effect if props.selectedSchema changes
+}, [props.selectedSchema]);
 
-const handleSchemaChange = (e) => {
-  setSelectedSchema(e.target.value);
-  console.log(`New schema selected: ${newSchema}`); // Log the new schema selection
-
+const handleSchemaChange = (event) => {
+  setSelectedSchema(event.target.value);
   if (props.onSelectedSchemaChange) {
-    props.onSelectedSchemaChange(e.target.value);
+    props.onSelectedSchemaChange(event.target.value);
   }
 };
 
-const handleSchemaOwnerChange = (e) => {
-  setNewSchemaSrc(e.target.value);
+const handleSchemaSrcChange = (event) => {
+  setNewSchemaSrc(event.target.value);
 };
 
-const handleApplySchemaSrc = () => {
-  setSchemaSrc(newSchemaSrc); // Apply the new schema source
-  console.log(`Applying new Schema Owner: ${newSchemaSrc}`); // Log the action
+const applySchemaSrc = () => {
+  setSchemaSrc(newSchemaSrc);
+};
+
+const showAllSchemas = () => {
+  setSchemaSrc("*");
 };
 
 return (
   <FormContainer>
-    <Label>Import Schemas</Label>
+    <Label>Schema Owner:</Label>
     <Row>
       <Input
-        type="text"
-        onChange={handleSchemaOwnerChange}
+        schema="text"
+        onChange={handleSchemaSrcChange}
         value={newSchemaSrc}
         placeholder="accountId"
       />
-      <Button onClick={handleApplySchemaSrc}>apply</Button>
+      <Button onClick={applySchemaSrc}>Apply</Button>
     </Row>
-    <br />
-    <Label>Structure Your Input Data</Label>
+    <Label>Schema:</Label>
     <Row>
       {isLoading ? (
         <div>Loading...</div>
@@ -99,6 +98,8 @@ return (
           ))}
         </Select>
       )}
+      <Button onClick={showAllSchemas}>Show All</Button>
     </Row>
   </FormContainer>
 );
+// <pre>{JSON.stringify(fetchedData, null, 2)}</pre> {/* Debug output */}

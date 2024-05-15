@@ -333,6 +333,30 @@ const darkColors = {
   
   //---------------------------------------------------part1------------------------------------------------------
   
+  // --------------- nodes -------------------
+  const Nodes = (
+    <div
+      className="col-lg-12 pb-4"
+      style={{
+        boxShadow: "2px 10px 20px rgba(128, 117, 226, 0.2)",
+      }}
+    >
+      <div
+        style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
+        className="shadow-sm rounded-4"
+      >
+        <Widget
+          key={state.data}
+          src="${config_account}/widget/explore.view.tree"
+          props={{
+            rootPath: state.data,
+            themeColor: themeColor.tree,
+          }}
+        />
+      </div>
+    </div>
+  );
+  
   const following = Social.keys(`${singer}/graph/follow/*`, "final", {
     return_type: "BlockHeight",
     values_only: true,
@@ -1144,30 +1168,6 @@ const darkColors = {
           props={{
             accountIds: [state.data, ""],
             spinnerColors: themeColor.spinnerColors,
-          }}
-        />
-      </div>
-    </div>
-  );
-  
-  // --------------- nodes -------------------
-  const Nodes = (
-    <div
-      className="col-lg-12 pb-4"
-      style={{
-        boxShadow: "2px 10px 20px rgba(128, 117, 226, 0.2)",
-      }}
-    >
-      <div
-        style={{ backgroundColor: themeColor?.sbt_info?.card_bg }}
-        className="shadow-sm rounded-4"
-      >
-        <Widget
-          key={state.data}
-          src="hyperfiles.near/widget/view.tree"
-          props={{
-            rootPath: state.data,
-            themeColor: themeColor.tree,
           }}
         />
       </div>
