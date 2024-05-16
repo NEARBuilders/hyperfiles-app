@@ -1,0 +1,7 @@
+{
+    "flowscience.near": {
+      "schema": {
+        "test": "{\"id\":\"68cb42521E1E8A6b632655F489085462B96e3eDD15\",\"title\":\"test\",\"description\":\"test\",\"schemaType\":\"object\",\"properties\":[{\"name\":\"test\",\"type\":\"string\",\"isRequired\":\"true\"},{\"name\":\"test\",\"type\":\"string\",\"isMulti\":false}],\"required\":[\"test\"]}"
+      }
+    }
+  }

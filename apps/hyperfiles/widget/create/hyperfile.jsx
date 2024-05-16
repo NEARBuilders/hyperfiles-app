@@ -1,5 +1,6 @@
 // const { CreateThing } = VM.require('${config_account}/widget/create.thing');
 // <CreateThing item={{ type: 'specificType', value: {} }} onChange={handleThingUpdate} />
+//import "hyperfiles-webcomponent/src/HyperfilesComponent"; // Ensure this path is correct
 
 const Wrapper = styled.div`
   max-width: 400px;
@@ -78,7 +79,7 @@ const [schemaSrc, setSchemaSrc] = useState(initialSchemaSrc);
 const [availableSchemas, setAvailableSchemas] = useState([]);
 const [isLoading, setIsLoading] = useState(true);
 const [selectedSchema, setSelectedSchema] = useState(
-  props.selectedSchema || "hyperfiles.near/schema/isBuilder"
+  props.selectedSchema || ""
 );
 
 // Creator constants
@@ -93,13 +94,18 @@ const [name, setName] = useState(props.name ?? "");
 const [description, setDescription] = useState(props.description ?? "");
 const [json, setJson] = useState(props.data ?? "");
 
-// Store input data for schema in state.data
-State.init({
+const [state, setState] = useState({
   data,
 });
 
 const handleOnChange = (value) => {
-  State.update({ data: { ...state.data, ...value } });
+  setState((prevState) => {
+    const newData = { value };
+    console.log('Current Data:', newData);
+    return {
+      data: newData,
+    };
+  });
 };
 
 const handleSchemaSrcChange = (newSchemaSrc) => {
@@ -108,8 +114,11 @@ const handleSchemaSrcChange = (newSchemaSrc) => {
 };
 
 const handleSelectedSchemaChange = (newValue) => {
-  setSelectedSchema(newValue);
+  const fullSchemaPath = `${schemaSrc}/schema/${newValue}`;
+  setSelectedSchema(fullSchemaPath);
+  console.log('Selected Schema Changed:', fullSchemaPath);
 };
+
 
 const handleThingUpdate = (newData) => {
   console.log('Thing Data Updated:', newData);
@@ -217,19 +226,21 @@ return (
           </FormGroup>
           <FormGroup>
             <Label>Schema</Label>
+            <p>JSON.stringify({selectedSchema})</p>
             <Widget
               src="${config_account}/widget/explore.select.schema"
               props={{
                 onSchemaSrcChange: handleSchemaSrcChange,
                 onSelectedSchemaChange: handleSelectedSchemaChange,
                 selectedSchema: selectedSchema,
+                schemaSrc: schemaSrc,
               }}
             />
           </FormGroup>
           <FormGroup>
             <Label>Input Your Data</Label>
             <FormContainer>
-              
+              {/*<hyperfiles-component ref={formRef}></hyperfiles-component>*/}
               <Widget
                 src="${config_account}/widget/create.thing"
                 props={{

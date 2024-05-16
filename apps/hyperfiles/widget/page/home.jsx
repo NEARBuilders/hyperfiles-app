@@ -1,7 +1,7 @@
 const { currentPath, page, ...passProps } = props;
 
 const Card3D = styled.div`
-  perspective: 1500px;
+  perspective: 2000px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,42 +43,43 @@ const ButtonLink = ({ to, children }) => (
 
 return (
   <div className="vh-100 w-100">
-      <Card3D>
-        <CardContent>
-          <h1
-            className="display-4 font-weight-bold text-black mb-2"
-            style={{
-              textShadow:
-                "1px 1px 1px rgba(0, 0, 0, 0.5), 4px 4px 4px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            hyperfiles
-          </h1>
-          <p
-            className="h5 text-success mb-4"
-            style={{
-              textShadow:
-                "1px 1px 1px rgba(0, 0, 0, 0.5), 2px 2px 2px rgba(0, 0, 0, 0.3)",
-            }}
-          >
-            everything connected
-          </p>
-          <ButtonLink to={"create"}>
-                  <MainButton key={"create"} variant={page === "create" && "primary"}>
-                    Create
-                  </MainButton>
-                </ButtonLink>
-                <ButtonLink to={"explore"}>
-                  <MainButton key={"explore"} variant={page === "explore" && "primary"}>
-                    Explore
-                  </MainButton>
-                </ButtonLink>
-                <ButtonLink to={"tools"}>
-                  <MainButton key={"tools"} variant={page === "tools" && "primary"}>
-                    Tools
-                  </MainButton>
-                </ButtonLink>
-        </CardContent>
-        </Card3D>
+    <Card3D>
+      <CardContent>
+        <h1
+          className="display-4 font-weight-bold text-black mb-2"
+          style={{
+            textShadow:
+              "1px 1px 1px rgba(0, 0, 0, 0.5), 4px 4px 4px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          hyperfiles
+        </h1>
+        <p
+          className="h5 text-success mb-4"
+          style={{
+            textShadow:
+              "1px 1px 1px rgba(0, 0, 0, 0.5), 2px 2px 2px rgba(0, 0, 0, 0.3)",
+            textAlign: "right",
+          }}
+        >
+          organize everything
+        </p>
+        <ButtonLink to={"create"}>
+          <MainButton key={"create"} variant={page === "create" && "primary"}>
+            Create
+          </MainButton>
+        </ButtonLink>
+        <ButtonLink to={"explore"}>
+          <MainButton key={"explore"} variant={page === "explore" && "primary"}>
+            Explore
+          </MainButton>
+        </ButtonLink>
+        <ButtonLink to={"tools"}>
+          <MainButton key={"tools"} variant={page === "tools" && "primary"}>
+            Tools
+          </MainButton>
+        </ButtonLink>
+      </CardContent>
+    </Card3D>
   </div>
 );

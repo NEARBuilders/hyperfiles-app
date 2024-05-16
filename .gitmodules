@@ -1,0 +1,3 @@
+[submodule "hyperfiles-webcomponent"]
+	path = hyperfiles-webcomponent
+	url = https://github.com/hyperfiles-org/hyperfiles-webcomponent

@@ -63,7 +63,7 @@ const availableTypes = JSON.parse(props.availableTypes) || [
 const create = () => {
   const output = {
     schema: {
-      [jsonSchema.title]: {
+      [jsonSchema.title]: JSON.stringify({
         ...jsonSchema,
         properties: state.properties,
         required:
@@ -71,7 +71,7 @@ const create = () => {
           state.properties
             .filter((it) => it.isRequired)
             .map((it) => (it = it.name)),
-      },
+      }),
     },
   };
   Social.set(output, { force });

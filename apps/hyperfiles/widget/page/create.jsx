@@ -1,5 +1,5 @@
 //const { DataCreator } = VM.require("${config_account}/widget/create.data");
-//const { HyperfileCreator } = VM.require("${config_account}/widget/create.hyperfile");
+//const { CreateHyperfile } = VM.require('${config_account}/widget/create.hyperfile2');
 //const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
 const { CreateMetadata } = VM.require(
   "${config_account}/widget/create.metadata"
