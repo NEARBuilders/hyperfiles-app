@@ -240,7 +240,8 @@ return (
           <FormGroup>
             <Label>Input Your Data</Label>
             <FormContainer>
-              {/*<hyperfiles-component ref={formRef}></hyperfiles-component>*/}
+              <near-social-viewer></near-social-viewer>
+
               <Widget
                 src="${config_account}/widget/create.thing"
                 props={{

@@ -177,7 +177,7 @@ console.log("schema: ", schema);
 return (
   <div className="container mt-3 p-3 border bg-light">
     <div className="row">
-      <h1>Hyperfile Creator</h1>
+      <h1>Hyperfiles Creator</h1>
       <p><i>*View the
         <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
           docs
@@ -204,9 +204,6 @@ return (
         <option value="JOB">Job</option>
       </Select>
     </Row>
-    <div>
-      <Widget src="${config_account}/widget/explore.search" props={{}} />
-    </div>
     <ul className="nav nav-tabs">
       <li className="nav-item">
         <a
@@ -371,15 +368,6 @@ return (
             </TabContent>
           </div>
         )}
-        <div>
-          <Widget
-            src="${config_account}/widget/explore.view.history"
-            props={{
-              path: state.path,
-              count: (count) => console.log("Number of changes:", count),
-            }}
-          />
-        </div>
       </TabContent>
     </div>
   </div>

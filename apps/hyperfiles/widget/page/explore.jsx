@@ -14,24 +14,34 @@ const handlePathUpdate = (newPath) => {
 };
 
 return (
-  <div className="p-3 border bg-light">
-    <div
-      style={{ display: "flex", flexDirection: "column", marginBottom: "20px" }}
-    >
-      <Widget
-        src="${config_account}/widget/explore.search"
-        onPathChange={handlePathUpdate}
-      />
-      <Widget
-        src="flowscience.near/widget/view"
-        path="flowscience.near/thing/*"
-      />
-      <Widget src="${config_account}/widget/explore.view.data" path={path} />
+  <div className="container mt-3 p-3 border bg-light">
+    <div className="row">
+      <h1>Hyperfiles Explorer</h1>
+      <p><i>*View the
+        <a href="https://opencann.notion.site/Hyperfiles-52cdfb892aff4d0ebe2178436c5edf6d">
+          docs
+        </a>
+        to learn more about how Hyperfiles data structures work.</i>
+      </p>
+      <p><b>TLDR:</b> <ul>
+      <li>Search for fields, schemas, types, profiles, and other content metadata.</li>
+      <li>Explore the network of related entities (data + creators) and actions (references + jobs).</li>
+      </ul></p>
+      <hr />
     </div>
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <h2>Explore Social Graphs</h2>
       <div style={{ flex: 1 }}>
-        <Widget src="hack.near/widget/graph.view" props={{}} />
+        <Widget src="${config_account}/widget/explore.view.graph" props={{}} />
       </div>
+    <h2>Explore Data</h2>
+    <div>
+      <div>
+      <Widget src="${config_account}/widget/explore.view.path" props={{
+        path: "hyperfiles.near/type/**"}} />
+      </div>
+    </div>
+    <h2>Explore Types</h2>
+    <div style={{ display: "flex", flexDirection: "row" }}>
       <div style={{ flex: 1 }}>
         <Widget src="${config_account}/widget/explore.types" />
       </div>
