@@ -1,11 +1,13 @@
+1. Fix ScaleUp css breaks navbar on page.home 
+2. Hyperfile creator data not recognized by "create reference" button
 1. Abstract all components used in /widget/page.* from <Widget> to VM.require()
 
 page.create (5)
-[ ] create.hyperfile
-[ ] flowscience.near/widget/eas
+[ ] create.hyperfile - implement HyperfilesWebcomponent.ts | RJSF library
+[ ] create.reference
 [ ] create.edit.schema
 [ ] create.edit.type
-[ ] jgodwill.near/widget/JSONFormatter
+[ ] create.job
 
 page.explore (3)
 [ ] explore.view.graph
@@ -13,12 +15,10 @@ page.explore (3)
 [ ] explore.types
 
 page.profile (4)
-[ ] zahidulislam.near/widget/Profile.LeftSection
-[ ] zahidulislam.near/widget/Profile.RightSection
+[ ] profile.sidebar
+[ ] profile.main
 [ ] profile.social
-[ ] explore.types
+[ ] profile.cleanup
 
 page.tools (1)
 [ ] tools.ipfsPDFuploads
-
-2. HyperfilesWebcomponent.ts

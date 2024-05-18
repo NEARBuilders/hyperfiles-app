@@ -15,24 +15,49 @@ const Theme = styled.div`
   ${css}
 `;
 
+const Container = styled.div`
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid #dee2e6;
+  padding: 1rem;
+  margin-bottom: 1rem;
+`;
+
+
 return (
+  <div className="container mt-3 p-3 border bg-light">
+    <div className="row">
+      <h1>Manage {context.accountId}'s Profile</h1>
+      <p><ul>
+      <li>Edit basic profile info in the left sidebar.</li>
+      <li>View widgets you've created and a heatmap of your on-chain activity.</li>
+      <li>Explore social profiles, data trees, and delete "keys" for entries in your data tree.</li>
+      </ul></p>
+      <hr />
+    </div>
   <Theme>
     <div className="container">
       <div className="content">
         <Widget
-          src="zahidulislam.near/widget/Profile.LeftSection"
+          src="${config_account}/widget/profile.sidebar"
           props={{ accountId, profile, theme }}
         />
-
         <Widget
-          src="zahidulislam.near/widget/Profile.RightSection"
+          src="${config_account}/widget/profile.main"
           props={{ accountId, profile, theme }}
         />
       </div>
-      
     </div>
-    <div className="p-3 border bg-light">
-        <Widget src="${config_account}/widget/profile.social" props={{}} />
-    </div>
+    <hr/>
   </Theme>
+    <div>
+        <Widget src="${config_account}/widget/profile.social" props={{}} />
+        <hr/>
+        <Container>
+        <h2>Profile Cleanup</h2>
+        <hr/>
+          <Widget src="${config_account}/widget/profile.cleanup" props={{}} />
+        </Container>
+    </div>
+  </div>
 );

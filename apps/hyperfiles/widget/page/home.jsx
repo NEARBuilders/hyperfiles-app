@@ -1,5 +1,7 @@
 const { currentPath, page, ...passProps } = props;
 
+const NavbarHeight = 70; // Assumed height of the Navbar
+
 const Card3D = styled.div`
   perspective: 2000px;
   display: flex;
@@ -9,7 +11,16 @@ const Card3D = styled.div`
   height: 100%;
 `;
 
+const ScaleUp = {
+  transform: 'scale(1.25)', // Scale up by 25%
+  paddingTop: `${NavbarHeight}px`, // Ensure content starts below the navbar
+  marginTop: `-${NavbarHeight*2}px`, // Offset the padding
+  boxSizing: 'border-box', // Include padding in the element's total width and height
+};
+
 const CardContent = styled.div`
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #fff;
@@ -17,8 +28,15 @@ const CardContent = styled.div`
   padding: 2rem;
 `;
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+`;
+
 const MainButton = styled.button`
-margin: .3em;
+margin: 0.3em;
 text-decoration: none;
 `;
 
@@ -64,21 +82,28 @@ return (
         >
           organize everything
         </p>
-        <ButtonLink to={"create"}>
-          <MainButton key={"create"} variant={page === "create" && "primary"}>
-            Create
-          </MainButton>
-        </ButtonLink>
-        <ButtonLink to={"explore"}>
-          <MainButton key={"explore"} variant={page === "explore" && "primary"}>
-            Explore
-          </MainButton>
-        </ButtonLink>
-        <ButtonLink to={"tools"}>
-          <MainButton key={"tools"} variant={page === "tools" && "primary"}>
-            Tools
-          </MainButton>
-        </ButtonLink>
+        <Container>
+          <ButtonLink to={"create"}>
+            <MainButton key={"create"} variant={page === "create" && "primary"}>
+              Create
+            </MainButton>
+          </ButtonLink>
+          <ButtonLink to={"explore"}>
+            <MainButton key={"explore"} variant={page === "explore" && "primary"}>
+              Explore
+            </MainButton>
+          </ButtonLink>
+          <ButtonLink to={"tools"}>
+            <MainButton key={"tools"} variant={page === "tools" && "primary"}>
+              Tools
+            </MainButton>
+          </ButtonLink>
+        </Container>
+        <Container>
+        <div style={{ marginTop: '1rem', width: '100%' }}>
+          <Widget src="${config_account}/widget/profile.links" props={{ accountId: "hyperfiles.near" }} />
+        </div>
+        </Container>
       </CardContent>
     </Card3D>
   </div>

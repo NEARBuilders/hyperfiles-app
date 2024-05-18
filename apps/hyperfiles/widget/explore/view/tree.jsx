@@ -1,3 +1,10 @@
+const labelStyles = {
+  fontFamily: "Arial, sans-serif",
+  fontSize: "1.2em", // Slightly larger font size
+  fontWeight: "bold", // Bold text
+  marginRight: "10px",
+};
+
 /**
  * Takes in a rootPath and rootType
  */
@@ -93,8 +100,8 @@ const node = getNode(state.path, state.type);
 
 return (
   <div className="p-3 border bg-light">
-    <label htmlFor="pathInput" style={{ marginRight: "10px" }}>
-      Enter account name:
+    <label htmlFor="pathInput" style={labelStyles}>
+      Enter Profile Account ID:
     </label>
 
     <div style={{ display: "flex", alignItems: "center" }}>
@@ -105,11 +112,11 @@ return (
         onChange={handleInputChange}
         placeholder="e.g. hyperfiles.near"
       />
-      <button onClick={handleExploreClick}>Explore</button>
+      <button onClick={handleExploreClick}>Load Data Tree</button>
     </div>
     <hr />
     <Widget
-      src="efiz.near/widget/Node"
+      src="${config_account}/widget/explore.view.node"
       props={{
         label: state.path,
         node,
@@ -122,10 +129,10 @@ return (
         isRoot: true,
         styles: {
           subject: {
-            fontFamily: "Times New Roman",
-            fontSize: "4em",
+            fontFamily: "Arial, sans-serif",
+            fontSize: "2em",
             lineHeight: "1.25",
-            fontWeight: 400,
+            fontWeight: 300,
             cursor: "pointer",
           },
         },

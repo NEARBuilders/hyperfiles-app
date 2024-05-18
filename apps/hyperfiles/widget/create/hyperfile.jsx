@@ -1,6 +1,5 @@
-// const { CreateThing } = VM.require('${config_account}/widget/create.thing');
-// <CreateThing item={{ type: 'specificType', value: {} }} onChange={handleThingUpdate} />
-//import "hyperfiles-webcomponent/src/HyperfilesComponent"; // Ensure this path is correct
+// const { NewThings } = VM.require('${config_account}/widget/create.newthing');
+// <NewThings item={{ type: 'specificType', value: {} }} onChange={handleThingUpdate} />
 
 const Wrapper = styled.div`
   max-width: 400px;
@@ -55,12 +54,21 @@ const adapters = [
   //   value: "everycanvas.near/widget/adapter.social",
   // },
   {
-    title: "IPFS",
-    value: "${config_account}/widget/adapter.ipfs",
+    title: "",
+    value: "",
   },
   {
+    title: "IPFS",
+    value: "everycanvas.near/widget/adapter.ipfs",
+    refType: { cid: "string" },
+  },
+  // {
+  //   title: "Custom",
+  //   value: "custom",
+  // },
+  {
     title: "GitHub",
-    value: "${config_account}/widget/adapter.github",
+    value: "hyperfiles.near/widget/adapter.github",
   },
   // {
   //   title: "Obsidian",
@@ -124,6 +132,43 @@ const handleThingUpdate = (newData) => {
   console.log('Thing Data Updated:', newData);
   // Handle the new data, such as saving to a state or sending to a server
 };
+
+
+const handleSelectRepository = (selectedFilePath) => {
+  console.log("Selected repository:", selectedFilePath);
+  // Assuming you need the repository's file path or some specific identifier
+  setFilePath(selectedFilePath); // or any specific attribute you need
+};
+
+const rawAdapter =
+  (adapter !== "" || adapter !== "custom") && Social.get(adapter, "final");
+const { create } =
+  ((adapter !== "" || adapter !== "custom") && VM.require(adapter)) ||
+  (() => {});
+
+const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
+
+function parseAdapter(code) {
+  let match;
+  const functions = [];
+
+  while ((match = functionRegex.exec(code)) !== null) {
+    const [_, functionName, params, content] = match;
+    functions.push({ functionName, params, content });
+  }
+
+  return functions.map((func, index) => (
+    <FormGroup key={index}>
+      <Label>{func.functionName}</Label>
+      <textarea
+        className="form-control"
+        style={{ width: "100%", height: "100%" }}
+        value={func.content.trim()}
+        disabled
+      />
+    </FormGroup>
+  ));
+}
 
 // TODO: Import keccak from ethers to hash Hyperfile contents
 function generateUID() {
@@ -240,8 +285,7 @@ return (
           <FormGroup>
             <Label>Input Your Data</Label>
             <FormContainer>
-              <near-social-viewer></near-social-viewer>
-
+              {/*<near-social-viewer></near-social-viewer>*/}
               <Widget
                 src="${config_account}/widget/create.thing"
                 props={{
@@ -263,27 +307,27 @@ return (
           <h3>Storage</h3>
           <FormGroup>
             <Label>Adapter</Label>
-            <Select
-              value={adapter}
-              onChange={(e) => setAdapter(e.target.value)}
-            >
+            <Select value={adapter} onChange={(e) => setAdapter(e.target.value)}>
               {adapters.map((o) => (
                 <option value={o.value}>{o.title}</option>
               ))}
             </Select>
           </FormGroup>
           {rawAdapter && <>{parseAdapter(rawAdapter)}</>}
+          {adapter === "hyperfiles.near/widget/adapter.github" && (
+            <Widget
+              src="flowscience.near/widget/GitHubSearchSelect"
+              onSelectRepository={handleSelectRepository}
+            ></Widget>
+          )}
         </Form>
       </div>
     </div>
     <div className="col">
       <div className="p-3 border bg-light">
         <Form>
-          <Button
-            onClick={handleCreate}
-            disabled={!adapter || !schema || !source || !rawData}
-          >
-            create reference
+          <Button onClick={handleCreate} disabled={!adapter || !selectedSchema || !source || !state.data}>
+            Publish Data to `{adapter}`
           </Button>
           {hyperfile !== "" && (
             <>
@@ -295,14 +339,8 @@ return (
                   style={{ width: "100%", height: "400px" }}
                 />
               </FormGroup>
-              <Button
-                onClick={() =>
-                  Social.set(JSON.parse(hyperfile), {
-                    force: true,
-                  })
-                }
-              >
-                save
+              <Button onClick={() => Social.set(JSON.parse(hyperfile), { force: true })}>
+                Save Reference
               </Button>
             </>
           )}

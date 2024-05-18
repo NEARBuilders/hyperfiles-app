@@ -197,28 +197,7 @@ function MultiSelect({ value, onChange }) {
 
 return (
   <Container>
-    <Row>
-      <Text>Load Type:</Text>
-      <Input
-        type="text"
-        value={state.newType}
-        onChange={(e) => State.update({ newType: e.target.value })}
-        placeholder={"accountId/type/Type"}
-      />
-      <Button onClick={loadType}>load</Button>
-    </Row>
-    <Row>
-      <Text>Type Source:</Text>
-      <Input
-        type="text"
-        value={state.newTypeSrc}
-        onChange={(e) => State.update({ newTypeSrc: e.target.value })}
-        placeholder={"accountId"}
-      />
-      <Button onClick={() => State.update({ typeSrc: state.newTypeSrc })}>
-        apply
-      </Button>
-    </Row>
+    
     <Widget src="${config_account}/widget/explore.select.type"/>
     <FormContainer>
       <Row>

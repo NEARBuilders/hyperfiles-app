@@ -1,10 +1,9 @@
-//const { DataCreator } = VM.require("${config_account}/widget/create.data");
-//const { CreateHyperfile } = VM.require('${config_account}/widget/create.hyperfile2');
+const { DataCreator } = VM.require("${config_account}/widget/create.data");
+const { CreateHyperfile } = VM.require('${config_account}/widget/create.hyperfiles');
 //const { GitHubAPIExample } = VM.require(  "create.near/widget/GitHub.API.Example");
 const { CreateMetadata } = VM.require(
   "${config_account}/widget/create.metadata"
 );
-
 
 const TabContent = styled.div`
   margin-top: 1rem;
@@ -41,45 +40,6 @@ const Row = styled.div`
   flex-direction: row;
 `;
 
-const adapters = [
-  // these can come from the user (or app) settings
-  // {
-  //   title: "Local Storage",
-  //   value: "everycanvas.near/widget/adapter.local_storage",
-  //   saveRef: false
-  // },
-  // {
-  //   title: "SocialDB",
-  //   value: "everycanvas.near/widget/adapter.social",
-  // },
-  {
-    title: "",
-    value: "",
-  },
-  {
-    title: "IPFS",
-    value: "${config_account}/widget/adapter.ipfs",
-    refType: { cid: "string" },
-  },
-  // {
-  //   title: "Custom",
-  //   value: "custom",
-  // },
-  {
-    title: "GitHub",
-    value: "${config_account}/widget/adapter.github",
-  },
-  // {
-  //   title: "Obsidian",
-  //   value: "hack.near/widget/adapter.obsidian",
-  // },
-  // {
-  //   title: "Tldraw",
-  //   value: "hack.near/widget/adapter.tldraw",
-  // },
-];
-
-
 const [rawData, setRawData] = useState("");
 const [source, setSource] = useState("");
 const [schema, setSchema] = useState("");
@@ -93,42 +53,6 @@ const [type, setType] = useState("");
 const [filePath, setFilePath] = useState(null);
 const [defaultView, setDefaultView] =
   useState("HYPERFILE") || props.defaultView;
-
-const handleSelectRepository = (selectedFilePath) => {
-  console.log("Selected repository:", selectedFilePath);
-  // Assuming you need the repository's file path or some specific identifier
-  setFilePath(selectedFilePath); // or any specific attribute you need
-};
-
-const rawAdapter =
-  (adapter !== "" || adapter !== "custom") && Social.get(adapter, "final");
-const { create } =
-  ((adapter !== "" || adapter !== "custom") && VM.require(adapter)) ||
-  (() => {});
-
-const functionRegex = /function\s+(\w+)\s*\(([^)]*)\)\s*{([\s\S]*?)\n}/g;
-
-function parseAdapter(code) {
-  let match;
-  const functions = [];
-
-  while ((match = functionRegex.exec(code)) !== null) {
-    const [_, functionName, params, content] = match;
-    functions.push({ functionName, params, content });
-  }
-
-  return functions.map((func, index) => (
-    <FormGroup key={index}>
-      <Label>{func.functionName}</Label>
-      <textarea
-        className="form-control"
-        style={{ width: "100%", height: "100%" }}
-        value={func.content.trim()}
-        disabled
-      />
-    </FormGroup>
-  ));
-}
 
 function generateUID() {
   const maxHex = 0xffffffff;
@@ -171,8 +95,8 @@ const handleCreate = () => {
 
 console.log("source: ", source);
 console.log("schema: ", schema);
-//console.log("data: ", rawData);
-//console.log("adapter: ", adapter);
+console.log("data: ", rawData);
+console.log("adapter: ", adapter);
 
 return (
   <div className="container mt-3 p-3 border bg-light">
@@ -260,7 +184,7 @@ return (
                 <div className="row">
                   <div className="col">
                     <div className="p-3 border bg-light">
-                      <Widget src="flowscience.near/widget/eas" props={{}} />
+                      <Widget src="${config_account}/widget/create.reference" props={{}} />
                     </div>
                   </div>
                 </div>
@@ -348,7 +272,7 @@ return (
                   <div className="col">
                     <div className="p-3 border bg-light">
                       <Widget
-                        src="jgodwill.near/widget/JSONFormatter"
+                        src="${config_account}/widget/create.job"
                         props={{}}
                       />
                     </div>

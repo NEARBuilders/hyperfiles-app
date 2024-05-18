@@ -48,7 +48,7 @@ const DynamicInput = ({ type, onChange, value, placeholder }) => {
 };
 
 // Main component
-const CreateThing = ({ item, onChange }) => {
+const NewThings = ({ item, onChange }) => {
   const [state, setState] = useState(item.value);
 
   const handleInputChange = (name, value) => {
@@ -81,4 +81,4 @@ const CreateThing = ({ item, onChange }) => {
   );
 };
 
-export { CreateThing };
+export { NewThings };

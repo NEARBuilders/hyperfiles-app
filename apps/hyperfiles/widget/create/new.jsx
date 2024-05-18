@@ -1,4 +1,4 @@
-const { CreateThings } = VM.require('${config_account}/widget/create.things');
+const { NewThings } = VM.require('${config_account}/widget/create.newthings');
 
 const Container = styled.div`
   display: flex;
@@ -68,7 +68,7 @@ const CreateNew = ({ initialData = {}, types, schemas }) => {
       </FormGroup>
       {selectedTypeOrSchema && (
         <FormContainer>
-          <CreateThing 
+          <NewThings 
             item={{ type: options[selectedTypeOrSchema], value: data }} 
             onChange={handleChange}
           />

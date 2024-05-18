@@ -74,7 +74,17 @@ const showAllTypes = () => {
 
 return (
   <FormContainer>
-    <Label>Type Owner:</Label>
+    <Label>Import Type for Editing:</Label>
+    <Row>  
+      <Input
+        type="text"
+        value={state.newType}
+        onChange={(e) => State.update({ newType: e.target.value })}
+        placeholder={"accountId/type/Type"}
+      />
+      <Button onClick={loadType}>load</Button>
+    </Row>
+    <Label>Import Property Types:</Label>
     <Row>
       <Input
         type="text"
@@ -84,7 +94,7 @@ return (
       />
       <Button onClick={applyTypeSrc}>Apply</Button>
     </Row>
-    <Label>Type:</Label>
+    <Label>Select Type to Edit:</Label>
     <Row>
       {isLoading ? (
         <div>Loading...</div>
