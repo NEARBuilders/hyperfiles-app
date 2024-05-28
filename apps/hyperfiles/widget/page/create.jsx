@@ -108,7 +108,7 @@ return (
         </a>
         to learn more about how Hyperfiles data structures work.</i>
       </p>
-      <p><b>TLDR:</b> <ul>
+      <p><ul>
       <li>Publish structured data objects, attest (add references) to data and reference objects, and run jobs (coming soon).</li>
       <li>Each schema contains an ordered list of types that describes the structure of corresponding data objects.</li>
       <li>Common types & schemas compose into a graph of related entities (data + creators) and actions (references + jobs).</li>

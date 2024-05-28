@@ -245,7 +245,7 @@ return (
       <div className="p-3 border bg-light">
         {/* Save data source names to user profile */}
         <Form>
-          <h3>Data</h3>
+          <h3>Enter Content</h3>
           <FormGroup>
             <Label>Source</Label>
             <Widget
@@ -271,7 +271,7 @@ return (
           </FormGroup>
           <FormGroup>
             <Label>Schema</Label>
-            <p>JSON.stringify({selectedSchema})</p>
+            <p>{selectedSchema}</p>
             <Widget
               src="${config_account}/widget/explore.select.schema"
               props={{
@@ -283,7 +283,7 @@ return (
             />
           </FormGroup>
           <FormGroup>
-            <Label>Input Your Data</Label>
+            <Label>Input Data</Label>
             <FormContainer>
               {/*<near-social-viewer></near-social-viewer>*/}
               <Widget
@@ -304,7 +304,7 @@ return (
     <div className="col">
       <div className="p-3 border bg-light">
         <Form>
-          <h3>Storage</h3>
+          <h3>Select Storage</h3>
           <FormGroup>
             <Label>Adapter</Label>
             <Select value={adapter} onChange={(e) => setAdapter(e.target.value)}>
@@ -326,6 +326,7 @@ return (
     <div className="col">
       <div className="p-3 border bg-light">
         <Form>
+          <h3>Deploy It</h3>
           <Button onClick={handleCreate} disabled={!adapter || !selectedSchema || !source || !state.data}>
             Publish Data to `{adapter}`
           </Button>

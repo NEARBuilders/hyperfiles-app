@@ -23,7 +23,7 @@ return (
         </a>
         to learn more about how Hyperfiles data structures work.</i>
       </p>
-      <p><b>TLDR:</b> <ul>
+      <p><ul>
       <li>Search for fields, schemas, types, profiles, and other content metadata.</li>
       <li>Explore the network of related entities (data + creators) and actions (references + jobs).</li>
       </ul></p>

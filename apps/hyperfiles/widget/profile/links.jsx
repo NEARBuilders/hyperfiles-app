@@ -40,7 +40,7 @@ return (
             (name === "telegram" && (
               <a
                 className="socialIcon"
-                href={`https://telegram.me/${value}`}
+                href={`https://t.me/${value}`}
                 target="_blank"
               >
                 <img

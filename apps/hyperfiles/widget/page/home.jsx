@@ -12,7 +12,7 @@ const Card3D = styled.div`
 `;
 
 const ScaleUp = {
-  transform: 'scale(1.25)', // Scale up by 25%
+  transform: 'scale(1.5)', // Scale up by 25%
   paddingTop: `${NavbarHeight}px`, // Ensure content starts below the navbar
   marginTop: `-${NavbarHeight*2}px`, // Offset the padding
   boxSizing: 'border-box', // Include padding in the element's total width and height
@@ -21,8 +21,8 @@ const ScaleUp = {
 const CardContent = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   background-color: #fff;
   color: #000;
   padding: 2rem;
@@ -33,6 +33,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 1rem;
+`;
+
+const Tagline = styled.p`
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5), 2px 2px 2px rgba(0, 0, 0, 0.3);
+  text-align: right; /* Right align the tagline */
+  width: 100%;
 `;
 
 const MainButton = styled.button`
@@ -62,7 +68,7 @@ const ButtonLink = ({ to, children }) => (
 return (
   <div className="vh-100 w-100">
     <Card3D>
-      <CardContent>
+      <CardContent style={ScaleUp}>
         <h1
           className="display-4 font-weight-bold text-black mb-2"
           style={{
@@ -72,16 +78,9 @@ return (
         >
           hyperfiles
         </h1>
-        <p
-          className="h5 text-success mb-4"
-          style={{
-            textShadow:
-              "1px 1px 1px rgba(0, 0, 0, 0.5), 2px 2px 2px rgba(0, 0, 0, 0.3)",
-            textAlign: "right",
-          }}
-        >
+        <Tagline className="h5 text-success mb-4">
           organize everything
-        </p>
+        </Tagline>
         <Container>
           <ButtonLink to={"create"}>
             <MainButton key={"create"} variant={page === "create" && "primary"}>
@@ -98,12 +97,12 @@ return (
               Tools
             </MainButton>
           </ButtonLink>
-        </Container>
-        <Container>
-        <div style={{ marginTop: '1rem', width: '100%' }}>
-          <Widget src="${config_account}/widget/profile.links" props={{ accountId: "hyperfiles.near" }} />
-        </div>
-        </Container>
+          </Container>
+          <Container>
+            <div style={{ marginTop: '1rem', width: '100%' }}>
+              <Widget src="${config_account}/widget/profile.links" props={{ accountId: "hyperfiles.near" }} />
+            </div>
+          </Container>
       </CardContent>
     </Card3D>
   </div>

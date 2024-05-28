@@ -9,7 +9,7 @@ const handlePrivateKey = (key) => {
 return (
     <div className="p-3 border bg-light">
       {/*<Widget src="${config_account}/widget/tools.ipfsPDF" />*/}
-      <Widget src="${config_account}/widget/tools.local.login" props={{
+      <Widget src="${config_account}/widget/tools.local.index" props={{
           onPrivateKeyRetrieved: handlePrivateKey, // Pass the callback to retrieve the private key
         }}/>
       <hr />
