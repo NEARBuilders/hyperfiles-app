@@ -1,0 +1,23 @@
+1. Hyperfile creator data not recognized by "create reference" button
+2. Abstract all components used in /widget/page.* from <Widget> to VM.require()
+
+page.create (5)
+[ ] create.hyperfile - implement HyperfilesWebcomponent.ts | RJSF library
+[ ] create.reference
+[ ] create.edit.schema
+[ ] create.edit.type
+[ ] create.job
+
+page.explore (3)
+[ ] explore.view.graph
+[ ] explore.view.path
+[ ] explore.types
+
+page.profile (4)
+[ ] profile.sidebar
+[ ] profile.main
+[ ] profile.social
+[ ] profile.cleanup
+
+page.tools (1)
+[ ] tools.ipfsPDFuploads

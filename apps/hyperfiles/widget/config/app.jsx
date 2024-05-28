@@ -22,5 +22,19 @@ return {
         name: "Explore",
       },
     },
+    profile: {
+      path: "${config_account}/widget/page.profile",
+      blockHeight: "final",
+      init: {
+        name: "Profile",
+      },
+    },
+    tools: {
+      path: "${config_account}/widget/page.tools",
+      blockHeight: "final",
+      init: {
+        name: "Tools",
+      },
+    },
   },
 };

@@ -1,0 +1,7 @@
+{
+    "flowscience.near": {
+      "type": {
+        "test": "{\"properties\":[{\"name\":\"test\",\"type\":\"string\"}],\"widgets\":{}}"
+      }
+    }
+  }

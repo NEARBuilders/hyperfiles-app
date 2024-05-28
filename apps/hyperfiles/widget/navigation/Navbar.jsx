@@ -1,28 +1,27 @@
 const StyledButton = styled.button`
   all: unset;
-  display: ${(props) => props.type === "icon" ? 'flex' : 'inline-flex'};
-  width: ${(props) => props.type === "icon" ? '40px' : 'auto'};
-  height: ${(props) => props.type === "icon" ? '40px' : 'auto'};
-  padding: ${(props) => props.type === "icon" ? '0' : '10px 20px'};
+  display: ${(props) => (props.type === "icon" ? 'flex' : 'inline-flex')};
+  width: ${(props) => (props.type === "icon" ? '40px' : 'auto')};
+  height: ${(props) => (props.type === "icon" ? '40px' : 'auto')};
+  padding: ${(props) => (props.type === "icon" ? '0' : '10px 20px')};
   justify-content: center;
   align-items: center;
   gap: 5px;
-  border-radius: ${(props) => props.type === "icon" ? '50%' : '8px'};
+  border-radius: ${(props) => (props.type === "icon" ? '50%' : '8px')};
   font-size: 15px;
   letter-spacing: 2px;
 
   font-weight: 555;
   font-family: "Courier", sans-serif;
-  background: ${(props) => props.isActive ? '#39f095' : `var(--button-${props.variant}-bg, #23242B)`};
-  color: ${(props) => props.isActive ? '#000' : `var(--button-${props.variant}-color, #39f095)`};
-  border: ${(props) => props.variant === "outline" ? '1px solid rgba(255, 255, 255, 0.20)' : 'none'};
+  background: ${(props) => (props.isActive ? '#39f095' : `var(--button-${props.variant}-bg, #23242B)`)};
+  color: ${(props) => (props.isActive ? '#000' : `var(--button-${props.variant}-color, #39f095)`)};
+  border: ${(props) => (props.variant === "outline" ? '1px solid rgba(255, 255, 255, 0.20)' : 'none')};
   transition: background 300ms, color 300ms;
 
   &:hover:not(:disabled), &:focus {
     background: #39f095;
     color: #000;
   }
-
 
   &:disabled {
     opacity: 0.5;
@@ -31,15 +30,11 @@ const StyledButton = styled.button`
 `;
 
 const StyledNavbar = styled.div`
-  width: 64px;
-
-  display: flex;
-  flex-direction: column;
+  width: 100%;
   justify-content: space-between;
   align-items: center;
   padding: 15px 23px;
-  width: 100%;
-
+  height: 80px;
   background-color: #0b0c14;
   border-bottom: 1px solid var(--stroke-color, rgba(255, 255, 255, 0.2));
   border-radius: 8px;
@@ -114,9 +109,9 @@ const toggleDropdown = () => setShowMenu(!showMenu);
 const SignInOrConnect = () => (
   <>
     {context.accountId ? (
-      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif"}}>Connected</p>
+      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif" }}>Connected</p>
     ) : (
-      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif"}}>Connect</p>
+      <p className="m-2" style={{ color: "#39f095", fontSize: "16px", letterSpacing: "2px", fontFamily: "Courier, sans-serif" }}>Connect</p>
     )}
   </>
 );
