@@ -36,5 +36,12 @@ return {
         name: "Tools",
       },
     },
+    docs: {
+      path: "${config_account}/widget/page.docs",
+      blockHeight: "final",
+      init: {
+        name: "Docs",
+      },
+    },
   },
 };
